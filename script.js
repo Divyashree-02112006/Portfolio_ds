@@ -20,10 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
         'Automated report categorization and priority matrix routing.'
       ],
       tech: ['MongoDB', 'Express.js', 'React.js', 'Node.js', 'Geolocation API', 'Google Maps API'],
-      
+      github: 'https://github.com/Divyashree-02112006',
+      live: '#',
       images: [
         'images/civiceye1.png',
-        'images/Civiceye2.png',
+        'images/civiceye2.png',
         'images/civiceye3.png',
         'images/civiceye4.png'
       ]
@@ -42,10 +43,12 @@ document.addEventListener('DOMContentLoaded', () => {
         'Clean user workspace history saving previous reviews.'
       ],
       tech: ['MongoDB', 'Express.js', 'React.js', 'Node.js'],
-      
+      github: 'https://github.com/Divyashree-02112006/HireLens',
+      live: '#',
       images: [
         'images/resume_analyser1.png',
         'images/resume_analyser2.png'
+        
       ]
     },
     'weather-app': {
@@ -61,7 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
         'Lightweight backend implementation minimizing API rate limit exhaustion.'
       ],
       tech: ['HTML', 'CSS', 'JavaScript', 'Python', 'Django', 'OpenWeatherMap API'],
-      
+      github: 'https://github.com/Divyashree-02112006/Weather-Forecasting-App',
+      live: '#',
       images: [
         'images/weather1.png',
         'images/weather2.png'
@@ -512,20 +516,64 @@ document.addEventListener('DOMContentLoaded', () => {
         // MOCK EMAILJS SENDING PIPELINE
         // In real execution, user connects EmailJS using script:
         // emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
-        setTimeout(() => {
+        const resetFormState = () => {
           submitBtn.disabled = false;
           submitBtn.innerHTML = origBtnHTML;
-          
-          formStatus.className = 'form-status success';
-          formStatus.innerHTML = '<i class="fa-solid fa-circle-check"></i> Thank you! Your message has been sent successfully. I will get back to you shortly.';
-          
-          contactForm.reset();
-          
-          // Clear status after 5 seconds
+        };
+
+        // Determine if EmailJS is configured
+        const isEmailJSConfigured = typeof emailjs !== 'undefined' && 
+                                    typeof EMAILJS_PUBLIC_KEY !== 'undefined' && 
+                                    EMAILJS_PUBLIC_KEY && 
+                                    EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY';
+
+        if (isEmailJSConfigured) {
+          // REAL EMAILJS SEND
+          console.log("EmailJS is initialized. Attempting to send form...", {
+            serviceID: EMAILJS_SERVICE_ID,
+            templateID: EMAILJS_TEMPLATE_ID,
+            formData: {
+              user_name: document.getElementById('form-name').value,
+              user_email: document.getElementById('form-email').value,
+              subject: document.getElementById('form-subject').value,
+              message: document.getElementById('form-message').value
+            }
+          });
+
+          emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, contactForm)
+            .then((response) => {
+              console.log("EmailJS SUCCESS Response:", response);
+              
+              resetFormState();
+              formStatus.className = 'form-status success';
+              formStatus.innerHTML = '<i class="fa-solid fa-circle-check"></i> Thank you! Your message has been sent successfully. I will get back to you shortly.';
+              formStatus.style.display = 'block';
+              contactForm.reset();
+              setTimeout(() => {
+                formStatus.style.display = 'none';
+              }, 6000);
+            }, (error) => {
+              console.error("EmailJS FAILURE Error Details:", error);
+              
+              resetFormState();
+              formStatus.className = 'form-status error';
+              formStatus.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Failed to send message. Error: ' + (error.text || error.message || JSON.stringify(error) || 'Unknown error');
+              formStatus.style.display = 'block';
+            });
+        } else {
+          // FALLBACK MOCK PIPELINE
+          console.warn("EmailJS is not configured or initialized. Entering mock submission mode.");
           setTimeout(() => {
-            formStatus.style.display = 'none';
-          }, 6000);
-        }, 1500);
+            resetFormState();
+            formStatus.className = 'form-status success';
+            formStatus.innerHTML = '<i class="fa-solid fa-circle-check"></i> (Mock Mode) Thank you! Your message was processed. Connect your EmailJS keys in index.html to receive real emails.';
+            formStatus.style.display = 'block';
+            contactForm.reset();
+            setTimeout(() => {
+              formStatus.style.display = 'none';
+            }, 6000);
+          }, 1500);
+        }
       } else {
         formStatus.className = 'form-status error';
         formStatus.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Please correct the highlighted errors in the form.';

@@ -14,7 +14,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Divya Shree P | Personal Portfolio">
   <meta property="og:description" content="Explore the portfolio of Divya Shree P - Software Developer, MERN Stack Developer, and ECE Student. Built with a modern, recruiter-focused Embers theme.">
-  <meta property="og:image" content="images/profile.jpg">
+  <meta property="og:image" content="images/profile.jpeg">
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -131,7 +131,7 @@
           <div class="hero-right reveal">
             <div class="profile-image-container">
               <div class="glowing-ring"></div>
-              <img src="images/profile.jpg" alt="Divya Shree P Profile Photo" class="profile-img">
+              <img src="images/profile.jpeg" alt="Divya Shree P Profile Photo" class="profile-img">
             </div>
           </div>
         </div>
@@ -769,7 +769,7 @@
     <footer id="site-footer">
       <div class="container footer-container">
         <h3>DIVYA SHREE P</h3>
-        <p class="footer-love">Built with ❤️ using modern web technologies.</p>
+        <p class="footer-love">Built using modern web technologies.</p>
         
         <div class="footer-socials">
           <a href="https://github.com/Divyashree-02112006" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
@@ -883,6 +883,21 @@
       
     </div>
   </div>
+
+  <!-- EmailJS Library Integration -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+    const EMAILJS_PUBLIC_KEY = "2o4a3BV39EwzryZq0";
+    const EMAILJS_SERVICE_ID = "service_1ttikcb";
+    const EMAILJS_TEMPLATE_ID = "template_0vq2fxj";
+
+    emailjs.init({
+      publicKey: EMAILJS_PUBLIC_KEY,
+    });
+
+console.log("EmailJS Initialized");
+</script>
 
   <!-- Javascript -->
   <script src="script.js"></script>
